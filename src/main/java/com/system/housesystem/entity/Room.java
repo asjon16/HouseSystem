@@ -15,7 +15,7 @@ public class Room extends BaseEntity<Integer>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "device_id")
+    @Column(name = "room_id")
     private Integer id;
     @Column(name = "room_name")
     private String name;
