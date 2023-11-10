@@ -1,4 +1,4 @@
-package com.clinic.domain.exception;
+package com.system.housesystem.domain.exception;
 
 import lombok.Getter;
 import lombok.Setter;
