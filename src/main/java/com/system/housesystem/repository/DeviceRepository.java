@@ -10,7 +10,10 @@ import java.util.List;
 public interface DeviceRepository extends JpaRepository<Device,Integer> {
 
     List<Device> findAllByDeletedFalse();
+    List<Device> findAllByDeletedTrue();
     List<Device>findAll();
+
     Device findByIdAndDeletedFalse(Integer id);
+    Device findByIdAndDeletedTrue(Integer id);
 
 }

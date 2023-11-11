@@ -24,13 +24,13 @@ public class Device extends BaseEntity<Integer> {
     @Column(name = "device_name")
     private String name;
     @Column(name = "device_status")
-    private Boolean status;
+    private Status status;
     @Column(name = "active_time")
     //Minutes active.
     private Integer activeTime;
     @Column(name = "timer")
     private LocalTime timer;
-
+    // sets up the % you want the device to be in capacity of. Example volume/brightness/heat.
     private Integer statusPercentage;
 
 

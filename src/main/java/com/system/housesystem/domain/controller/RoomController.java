@@ -63,6 +63,16 @@ public class RoomController {
         roomService.removeAllDevices(roomId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @PostMapping("/turnOffAll/{roomId}")
+    public ResponseEntity<Void> turnOffAllDevicesOfRoom(@PathVariable Integer roomId){
+        roomService.turnOffAllDevicesOfRoom(roomId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PostMapping("/turnOnAll/{roomId}")
+    public ResponseEntity<Void> turnOnAllDevicesOfRoom(@PathVariable Integer roomId){
+        roomService.turnOnAllDevicesOfRoom(roomId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
 

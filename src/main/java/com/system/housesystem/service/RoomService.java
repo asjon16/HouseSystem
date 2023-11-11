@@ -21,6 +21,8 @@ public interface RoomService {
 
 
     List<RoomDto> findAllActiveRooms();
+    RoomDto turnOnAllDevicesOfRoom(Integer id);
+    RoomDto turnOffAllDevicesOfRoom(Integer id);
 
     RoomDto addDeviceIntoRoom(Integer roomId,Integer deviceId);
 

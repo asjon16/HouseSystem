@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalTime;
 import java.util.List;
 
 import static com.system.housesystem.domain.mapper.DeviceMapper.toDto;
@@ -36,14 +35,17 @@ public class DeviceController {
     public ResponseEntity<List<DeviceDto>> getAllActiveDevices(){
         return ResponseEntity.ok(deviceService.findAllActive());
     }
-
+    @PostMapping("/percentage/{id}")
+    public ResponseEntity<DeviceDto> setStatusPercentage(@PathVariable Integer id, @RequestParam Integer statusPercentage){
+        return ResponseEntity.ok(deviceService.setStatusPercentage(id,statusPercentage));
+    }
     @PutMapping("/update/{id}")
     public ResponseEntity<DeviceDto> updateDevice(@PathVariable Integer id, @RequestBody DeviceDto deviceDto){
         return ResponseEntity.ok(deviceService.updateDevice(id,deviceDto));
     }
 
     @PutMapping("/status/{id}")
-    public ResponseEntity<DeviceDto> updateStatus(@PathVariable Integer id, @RequestParam Boolean status){
+    public ResponseEntity<DeviceDto> updateStatus(@PathVariable Integer id, @RequestParam String status){
         return ResponseEntity.ok(deviceService.updateStatus(id,status));
     }
 
@@ -52,10 +54,31 @@ public class DeviceController {
         return ResponseEntity.ok(deviceService.setTimer(id,deviceDto));
     }
 
-    @DeleteMapping("/disable/{id}")
+    @PostMapping("/disable/{id}")
     public ResponseEntity<Void>disableDevice(@PathVariable Integer id){
-        deviceService.deleteDeviceById(id);
+        deviceService.disableDevice(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PostMapping("/enable/{id}")
+    public ResponseEntity<Void>enableDevice(@PathVariable Integer id){
+        deviceService.enableDevice(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PostMapping("/turnOffAll")
+    public ResponseEntity<List<DeviceDto>> turnOffAll(){
+        return ResponseEntity.ok(deviceService.turnOffAllDevices());
+    }
+    @PostMapping("/turnOnAll")
+    public ResponseEntity<List<DeviceDto>> turnOnAll(){
+        return ResponseEntity.ok(deviceService.turnOnAllDevices());
+    }
+    @PostMapping("/disableAll")
+    public ResponseEntity<List<DeviceDto>> disableAll(){
+        return ResponseEntity.ok(deviceService.disableAllDevices());
+    }
+    @PostMapping("/enableAll")
+    public ResponseEntity<List<DeviceDto>> enableAll(){
+        return ResponseEntity.ok(deviceService.enableAllDevices());
     }
 
     @DeleteMapping("/delete/{id}")

@@ -10,7 +10,8 @@ public class DeviceMapper {
         deviceDto.setId(d.getId());
         deviceDto.setName(d.getName());
         deviceDto.setActiveTime(d.getActiveTime());
-        deviceDto.setStatus(d.getStatus());
+        deviceDto.setStatus(d.getStatus().name());
+        deviceDto.setStatusPercentage(d.getStatusPercentage());
         deviceDto.setTimer(d.getTimer());
         return deviceDto;
     }

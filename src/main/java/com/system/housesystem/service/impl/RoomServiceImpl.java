@@ -7,6 +7,7 @@ import com.system.housesystem.domain.exception.StatusException;
 import com.system.housesystem.domain.mapper.RoomMapper;
 import com.system.housesystem.entity.Device;
 import com.system.housesystem.entity.Room;
+import com.system.housesystem.entity.Status;
 import com.system.housesystem.repository.RoomRepository;
 import com.system.housesystem.service.DeviceService;
 import com.system.housesystem.service.RoomService;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.beans.Transient;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,22 +30,22 @@ import static com.system.housesystem.domain.mapper.RoomMapper.toEntity;
 public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final DeviceService deviceService;
-    @Override // finished works
+    @Override
     public Room findById(Integer id) {
         return roomRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException(String
                         .format("Room with id %s do not exist",id)));
     }
 
-    @Override // finished works
+    @Override
     public RoomDto createRoom(RoomDto roomDto) {
         var room = toEntity(roomDto);
+        room.setDevices(new ArrayList<>());
         roomRepository.save(room);
-
         return toDto(room);
     }
 
-    @Override // finished works
+    @Override
     public RoomDto updateName(Integer id, RoomDto name) {
         var room = findById(id);
         room.setName(name.getName());
@@ -51,7 +53,32 @@ public class RoomServiceImpl implements RoomService {
         return toDto(room);
     }
 
-    @Override // finished works
+    public RoomDto turnOffAllDevicesOfRoom(Integer id){
+        var room = findById(id);
+        List<Device> devices = roomRepository.findAllDevicesById(id);
+        for (Device d : devices){
+            d.setStatusPercentage(0);
+            d.setStatus(Status.OFF);
+            d.setActiveTime(0);
+            d.setTimer(null);
+
+        }roomRepository.save(room);
+        return toDto(room);
+    }
+    public RoomDto turnOnAllDevicesOfRoom(Integer id){
+        var room = findById(id);
+        List<Device> devices = roomRepository.findAllDevicesById(id);
+        for (Device d : devices){
+            d.setStatusPercentage(0);
+            d.setStatus(Status.ON);
+            d.setActiveTime(0);
+            d.setTimer(null);
+
+        }roomRepository.save(room);
+        return toDto(room);
+    }
+
+    @Override
     public void deleteRoom(Integer id) {
         var room = findById(id);
         if (!room.getDevices().isEmpty()){
@@ -69,19 +96,19 @@ public class RoomServiceImpl implements RoomService {
         roomRepository.save(room);
     }*/
 
-    @Override // finished works
+    @Override
     public List<RoomDto> findAllRooms() {
         List<Room> roomList = roomRepository.findAll();
         return roomList.stream().map(RoomMapper::toDto).collect(Collectors.toList());
     }
 
-    @Override // finished works
+    @Override
     public List<RoomDto> findAllActiveRooms() {
         List<Room> roomList = roomRepository.findAllByDeletedFalse();
         return roomList.stream().map(RoomMapper::toDto).collect(Collectors.toList());
     }
 
-    @Override // finished works
+    @Override
     public RoomDto addDeviceIntoRoom(Integer roomId, Integer deviceId) {
         var room = findById(roomId);
         var device = deviceService.findById(deviceId);
@@ -93,7 +120,7 @@ public class RoomServiceImpl implements RoomService {
         return toDto(room);
     }
 
-    @Override // finished works
+    @Override
     public RoomDto removeDeviceFromRoom(Integer roomId, Integer deviceId) {
         var room = findById(roomId);
         var device = deviceService.findById(deviceId);
@@ -102,7 +129,7 @@ public class RoomServiceImpl implements RoomService {
         return toDto(room);
     }
 
-    @Override // finished works
+    @Override
     public void removeAllDevices(Integer roomId) {
         var room = findById(roomId);
         room.setDevices(null);

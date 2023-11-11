@@ -25,17 +25,14 @@ public class DeviceDto {
     @Size(max = 30,message = "Maximum size of name is 30")
     private String name;
 
-    private Boolean status;
+    private String status;
 
     private Integer activeTime;
 
     @JsonFormat(pattern = "HH:mm")
     private LocalTime timer;
 
-    @Min(value = 0, message = "Minimum value for status is 0")
-    @Max(value = 100, message = "Maximum value for status is 100")
     @Column(name = "status_percentage")
-    // sets up the % you want the device to be in capacity of. Example volume/brightness/heat.
     private Integer statusPercentage;
 
 }
